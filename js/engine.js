@@ -13,7 +13,8 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
-var Hi = "hi"
+var numRows = 6;
+var numCols = 5;
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -27,6 +28,8 @@ var Engine = (function(global) {
 
     canvas.width = 505;
     canvas.height = 606;
+    canvas.className += canvas.className ? ' gameCanvas' : 'gameCanvas';
+    //credit: http://stackoverflow.com/questions/2739667/add-another-class-to-a-div-with-javascript
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -66,6 +69,7 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
+        // makeWinningTiles(numWinningTiles);
         main();
     }
 
@@ -115,8 +119,8 @@ var Engine = (function(global) {
                 'images/grass-block.png',   // Row 1 of 2 of grass
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
-            numRows = 6,
-            numCols = 5,
+            // numRows = 6, // make these global variables so can use to calculate locations
+            // numCols = 5,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
@@ -133,9 +137,9 @@ var Engine = (function(global) {
                  * we're using them over and over.
                  */
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                // console.log(row.y);
             }
         }
-
 
         renderEntities();
     }
@@ -152,6 +156,10 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        // winningTile.render();
+        winningTileArray.forEach(function(tile) {
+            tile.render();
+        });
         player.render();
     }
 
@@ -163,10 +171,17 @@ var Engine = (function(global) {
         // noop
     }
 
-    function start() {
-        alert("start");
-        win.requestAnimationFrame(main);
-    };
+    // function start() {
+    //     alert("start");
+    //     win.requestAnimationFrame(main);
+    // };
+
+    function updateFinalTiles(argument) {
+        // body...
+    }
+    function newLevel() {
+
+    }
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
@@ -177,7 +192,12 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png',
+        'images/wood.png'
     ]);
     Resources.onReady(init);
 

@@ -7,25 +7,53 @@
 </head>
 <body>
 		<button id="start" onclick="start()">Start</button>
-		<p id="lives">3</p>
-		<div style="text-align:left">Choose your character</div>
-		<img src="images/char-boy.png" id="boy">
-		<img src="images/char-cat-girl.png" id="catGirl" onclick="changeCharacter()">
-		<img src="images/char-horn-girl.png" id="hornGirl">
-		<img src="images/char-pink-girl.png" id="pinkGirl">
-		<img src="images/char-princess-girl.png" id="princessGirl">
+		<p id="lives" style="margin:0;">Lives: 3</p>
+		<p style="margin:0;">Level</p><p id="level" style="margin:0;">1</p>
+		<div style="display: inline-block;width: 150px;">
+			<p style="text-align:left">Choose your character</p>
+			<img src="images/char-boy.png" id="boy" class="charImage">
+			<img src="images/char-cat-girl.png" id="catGirl" class="charImage"> <!-- onclick="changeCharacter()" -->
+			<img src="images/char-horn-girl.png" id="hornGirl" class="charImage">
+			<img src="images/char-pink-girl.png" id="pinkGirl" class="charImage">
+			<img src="images/char-princess-girl.png" id="princessGirl" class="charImage">
+		</div>
 		<script type="text/javascript">
 		// var startButton = document.getElementById("start");
-		function changeCharacter() {
-			console.log(Player.sprite);
-			// console.log($('#catGirl'));
-			// window.requestAnimationFrame(Engine.main());
-		};
+		// var image1 = document.getElementById('boy');
+		// var image2 = document.getElementById('catGirl');
+		// // image1.addEventHandler('click', boyClickHandler);
+		// image2.addEventHandler('click', girlClickHandler);
+		// function girlClickHandler() {
+		// 	console.log('girl');
+		// 	// player.sprite = ''
+		// }
+		$('#catGirl').on('click', function() {
+			player.sprite = 'images/char-cat-girl.png';
+		})
+		$('#hornGirl').on('click', function() {
+			player.sprite = 'images/char-horn-girl.png';
+		})
+		$('#pinkGirl').on('click', function() {
+			player.sprite = 'images/char-pink-girl.png';
+		})
+		$('#princessGirl').on('click', function() {
+			player.sprite = 'images/char-princess-girl.png';
+		})
+		$('#boy').on('click', function() {
+			player.sprite = 'images/char-boy.png';
+		})
+ 	// 	function changeCharacter() {
+		// 	console.log(player.sprite);
+		// 	console.log(this);
+		// 	console.log(this.selector);
+		// 	console.log($('#catGirl'));
+		// 	player.sprite = 'images/char-cat-girl.png';
+		// 	// console.log($('#catGirl'));
+		// 	// window.requestAnimationFrame(Engine.main());
+		// };
 		</script>
-
-		<!-- <canvas width="500" height="500"></canvas> -->
     <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

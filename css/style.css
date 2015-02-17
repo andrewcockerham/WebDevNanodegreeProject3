@@ -1,3 +1,13 @@
 body {
     text-align: center;
+    background-color: blue;
+}
+
+.gameCanvas {
+	display: inline-block;
+}
+
+.charImage {
+	height: 9em;
+	margin-top: -3em;
 }
