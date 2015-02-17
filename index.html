@@ -6,13 +6,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body>
-		<button id="start" onclick="start()">Start</button>
+		<button id="start">Start</button> <!-- nclick="start()" -->
 		<p id="lives" style="margin:0;">Lives: 3</p>
 		<p style="margin:0;">Level</p><p id="level" style="margin:0;">1</p>
 		<div style="display: inline-block;width: 150px;">
 			<p style="text-align:left">Choose your character</p>
 			<img src="images/char-boy.png" id="boy" class="charImage">
-			<img src="images/char-cat-girl.png" id="catGirl" class="charImage"> <!-- onclick="changeCharacter()" -->
+			<img src="images/char-cat-girl.png" id="catGirl" class="charImage">
 			<img src="images/char-horn-girl.png" id="hornGirl" class="charImage">
 			<img src="images/char-pink-girl.png" id="pinkGirl" class="charImage">
 			<img src="images/char-princess-girl.png" id="princessGirl" class="charImage">
@@ -27,6 +27,11 @@
 		// 	console.log('girl');
 		// 	// player.sprite = ''
 		// }
+		$('#start').on('click', function() {
+			start = true;
+			testF();
+			// main();
+		})
 		$('#catGirl').on('click', function() {
 			player.sprite = 'images/char-cat-girl.png';
 		})

@@ -1,6 +1,11 @@
 // actual width of character is 61px
-
+var testF = function() {
+  console.log("testF");
+  main();
+}
 var level = 1; // Start at level 1
+var previousLevel = 0;
+var start = false;
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -67,15 +72,17 @@ Player.prototype.update = function(dt) {
   if (this.y == -27) {
     winningTileArray.forEach(function(tile) {
       if (player.x == tile.x) {
+        previousLevel = level;
+        console.log("prevlevel= " + previousLevel + "level= " + level)
         levelUp();
-        // level += 1;
-        // document.getElementById("level").innerHTML = level;
-        // resetPlayer(player);
       }
     });
-    resetPlayer(this);
-    this.lives -= 1;
-    document.getElementById("lives").innerHTML = this.lives;
+    if (previousLevel == level) {
+      console.log("player dies")
+      resetPlayer(this);
+      this.lives -= 1;
+      document.getElementById("lives").innerHTML = this.lives;
+    }
   }
 
 }
@@ -129,8 +136,8 @@ var WinningTile = function() {
 }
 
 WinningTile.prototype.update = function(dt) {
-  // if first start reached, therefore level 2, then update to new tile location
 }
+
 // Draw the tiles on the screen
 WinningTile.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -161,7 +168,6 @@ player.x = (ctx.canvas.width / 2) - (101/2);//(player.sprite.width);//(505/2)-(1
 // player.y = (ctx.canvas.height - 83);
 // player.x = 202;
 player.y = 388;
-// player.y = 275;
 player.lives = 3;
 
 var getRandomColumn = function(numCols) {

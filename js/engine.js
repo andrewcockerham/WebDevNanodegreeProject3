@@ -59,7 +59,9 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+         if (start) {
+            win.requestAnimationFrame(main);
+        }
     };
 
     /* This function does some initial setup that should only occur once,
@@ -69,7 +71,6 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
-        // makeWinningTiles(numWinningTiles);
         main();
     }
 
@@ -176,12 +177,6 @@ var Engine = (function(global) {
     //     win.requestAnimationFrame(main);
     // };
 
-    function updateFinalTiles(argument) {
-        // body...
-    }
-    function newLevel() {
-
-    }
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
@@ -207,4 +202,3 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 })(this);
-
