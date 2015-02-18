@@ -3,3 +3,4 @@ Sources:
 * http://stackoverflow.com/questions/18451677/centre-multiple-elements-within-div-using-css;
 * http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
 * http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_floor
+* http://stackoverflow.com/questions/2739667/add-another-class-to-a-div-with-javascript
