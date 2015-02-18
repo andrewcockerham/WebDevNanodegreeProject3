@@ -17,11 +17,15 @@ h2 {
 }
 
 .noMargin {
-	margin:0;
+	margin: 0;
 	padding-right: 5px;
 	padding-left: 5px;
-  position:relative;
-  display:inline-block;
+  position: relative;
+  display: inline-block;
+}
+
+#chooseCharacter {
+	text-align: left;
 }
 
 .characterList {
@@ -30,7 +34,7 @@ h2 {
 }
 
 .livesLevels {
-  text-align:center;
-  position:relative;
+  text-align: center;
+  position: relative;
 }
 /*credit: http://stackoverflow.com/questions/18451677/centre-multiple-elements-within-div-using-css;*/
