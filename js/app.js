@@ -1,11 +1,10 @@
 // actual width of character is 61px
-var testF = function() {
-  console.log("testF");
-  main();
-}
+
+// Initiate some global variables
 var level = 1; // Start at level 1
-var previousLevel = 0;
-var start = false;
+var minSpeed = 0.3; // minimum bug speed; increases every level
+var maxSpeed = 0.9; // maximum bug speed; increases every level
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -24,15 +23,21 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
+
+    /* This moves the bug by its speed * dt * a factor of 230
+       Each time the bug goes off the right side of the screen, it is given
+       a new random speed between the max and min
+    */
+    // 230 has no significance, it just seemed to be the right factor
+    // to make the game playable
     this.x += 230 * this.speed * dt;
-    // this.x += 230 * this.speed * dt;
-    if (this.x > 500) {
+    if (this.x > 500) { // bug goes off of canvas
       this.x = 0
       //credit: http://stackoverflow.com/questions/4550505/getting-random-value-from-an-array
       var row = rowArray[Math.floor(Math.random() * rowArray.length)];
       this.y = row
       // Choose a random speed between a min and max each time the bug starts at the left of the screen
-      this.speed = (Math.random() * (0.9 - 0.3) + 0.3); // max = 0.9, min = 0.3
+      this.speed = (Math.random() * (maxSpeed - minSpeed) + minSpeed);
       // credit: http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
     }
 }
@@ -42,95 +47,90 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+/* PLAYER FUNCTIONS */
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-    // this.x = 0;
-    // this.y = 0;
     this.sprite = 'images/char-boy.png';
 }
 Player.prototype.update = function(dt) {
-  // if collision, move back to 'home'
+  // if collision, player dies
   if ((Math.floor(allEnemies[0].x) < this.x + 35) && (Math.floor(allEnemies[0].x) > this.x - 35) && Math.floor(allEnemies[0].y) == this.y) {
-    resetPlayer(this);
-    this.lives -= 1;
-    document.getElementById("lives").innerHTML = this.lives;
+    playerDies(player);
   }
   if ((Math.floor(allEnemies[1].x) < this.x + 35) && (Math.floor(allEnemies[1].x) > this.x - 35) && Math.floor(allEnemies[1].y) == this.y) {
-    resetPlayer(this);
-    this.lives -= 1;
-    document.getElementById("lives").innerHTML = this.lives;
+    playerDies(player);
   }
   if ((Math.floor(allEnemies[2].x) < this.x + 35) && (Math.floor(allEnemies[2].x) > this.x - 35) && Math.floor(allEnemies[2].y) == this.y) {
-    resetPlayer(this);
-    this.lives -= 1;
-    console.log(window.ctx.canvas.width); // KEEP RUNNING WITH THIS
-    document.getElementById("lives").innerHTML = this.lives;
+    playerDies(player);
   }
 
+  // if player reaches top row
+  // (I would have liked to not have harded code these variables, but it took a lot of time
+  //   to figure out the exact widths of the graphics because there was some
+  //   transparent part of each image)
   if (this.y == -27) {
+    y = true; // y is just a variable used to check if the player landed on the tile or water
     winningTileArray.forEach(function(tile) {
       if (player.x == tile.x) {
-        previousLevel = level;
-        console.log("prevlevel= " + previousLevel + "level= " + level)
         levelUp();
+        y = false;
       }
     });
-    if (previousLevel == level) {
-      console.log("player dies")
-      resetPlayer(this);
-      this.lives -= 1;
-      document.getElementById("lives").innerHTML = this.lives;
+    if (y == true) {
+      playerDies(player);
     }
   }
-
 }
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 Player.prototype.handleInput = function(key) {
-    switch(key) {
-        case 'up':
-            if (player.y <= -22) {
-              player.y = -27;
-            } else {
-              player.y -= 83;
-            }
-            console.log(player.y);
-            break;
-        case 'down':
-          if (player.y >= 388) {
-            player.y = 388;
-          } else {
-          player.y += 83;
-          }
-          console.log(player.y);
-            break;
-        case 'left':
-          if (player.x <= 0) {
-            player.x = 0;
-          } else {
-            player.x -= 101;
-          }
-          console.log(player.x);
-          break
-        case 'right':
-          if (player.x >= 400) {
-            player.x = 404;
-          } else {
-            player.x += 101;
-          }
-          console.log(player.x);
-            break
+  switch(key) {
+    case 'up':
+      if (player.y <= -22) {
+        player.y = -27;
+      } else {
+        player.y -= 83;
+      }
+      break;
+    case 'down':
+      if (player.y >= 388) {
+        player.y = 388;
+      } else {
+        player.y += 83;
+      }
+      break;
+    case 'left':
+      if (player.x <= 0) {
+        player.x = 0;
+      } else {
+        player.x -= 101;
+      }
+      break
+    case 'right':
+      if (player.x >= 400) {
+        player.x = 404;
+      } else {
+        player.x += 101;
+      }
+      break
     }
 }
+
+// This function moves the player back to starting position after they die or
+// complete a level.
 var resetPlayer = function(player) {
   player.x = (ctx.canvas.width / 2) - (101/2);
   player.y = 388;
 };
 
+
+// Create a new class of tiles on the top row that a player must land on to beat a level.
+// I thought it was weird that the player could go in the water, so I made it so
+// the player dies if they go in the water, they must land on the 'tiles'
 var WinningTile = function() {
   this.sprite = 'images/wood.png'
 }
@@ -146,6 +146,10 @@ WinningTile.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+/* Instantiate enemy objects at random x values
+   Speed is initially set to 1, but is changed every time the bug crosses the screen
+ */
 allEnemies = [];
 var enemy = new Enemy();
 allEnemies.push(enemy);
@@ -163,48 +167,51 @@ enemy3.x = -150;
 enemy3.y = rowArray[2];
 enemy3.speed = 1;
 
+/* Instantiate player objects */
 var player = new Player();
 player.x = (ctx.canvas.width / 2) - (101/2);//(player.sprite.width);//(505/2)-(101/2)
 // player.y = (ctx.canvas.height - 83);
-// player.x = 202;
+// I wanted to not make these locations hard coded, but was difficult
+// because of the transpart parts of the graphic images
 player.y = 388;
-player.lives = 3;
+player.lives = 3; // players start with 3 lives
 
+
+// This is a simple function that gets a random column number
 var getRandomColumn = function(numCols) {
   return Math.floor(Math.random() * (numCols - 1))
 }
 
-numWinningTiles = numCols // initialize numWinningTiles to be col - 1
+/* Instantiate tile objects
+   On the first level there are four tiles randomly placed on the top row.
+   The player must land on one of these tiles to beat the level.
+   Each level, the number or possible tiles is reduced by one, making the level harder
+*/
+
+// Initialize some global variables
+numWinningTiles = numCols
 var testArray = [];
-var winningTileArray = [];
+var winningTileArray = []; // an array of tiles, similar to the allEnemies[] array
+// This function creates the number of tiles based on the level and randomly assigns
+// them to a column
 var makeWinningTiles = function(numWinningTiles) {
-  console.log("makeWinningTiles " + numWinningTiles)
-  // var winningTileArray = [];
-  // i = winningTileArray.length;
-  // var testArray = [];
+  // create an array of columns, one for each tile
   for (var i = 0; i < numWinningTiles; i++) {
     testArray.push(i);
   }
-  console.log(testArray);
-  // for (var i = 0; i < (numCols - numWinningTiles + 1); i++) {
-    col = getRandomColumn(testArray.length);
-    console.log("col " + col);
-    var index = testArray.indexOf(col);
-    console.log("index " + index);
-    testArray.splice(index, 1);
-    console.log("testArray " + testArray);
-  // };
+  col = getRandomColumn(testArray.length); // pick a random column
+  var index = testArray.indexOf(col);
+  testArray.splice(index, 1); // remove one tile
   for (var i = 0; i < testArray.length; i++) {
     var winningTile = new WinningTile();
-    winningTile.x = testArray[i] * 101;
-    winningTile.y = 50;
+    winningTile.x = testArray[i] * 101; // tiles are placed in random columns
+    winningTile.y = 50; // all tiles on the top row
     winningTileArray.push(winningTile);
-    console.log("#wintiles = " + winningTileArray.length);
   }
 }
+// Create the tiles at the start of the game
 if (level == 1) {
   makeWinningTiles(numWinningTiles);
-  console.log("level1")
 }
 
 // This listens for key presses and sends the keys to your
@@ -218,24 +225,42 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
-    // console.log(e.keyCode);
 });
 
+/* This function is called each time the player reaches the wooden tiles
+   and goes on to the next level
+*/
 function levelUp() {
   level += 1;
+  if (level == 5) {
+    alert("You win! Refresh to play again.");
+  }
   document.getElementById("level").innerHTML = level;
   resetPlayer(player);
-  // reset winningTileArray
-  winningTileArray = [];
-  testArray = [];
-  // numWinningTiles -= 1
-  // remake winning tiles function
-  numWinningTiles -= 1;
-  makeWinningTiles(numWinningTiles);
+  winningTileArray = []; // reset winningTileArray
+  testArray = []; // reset the array
+  numWinningTiles -= 1; // reduce number of winning tiles every level
+  makeWinningTiles(numWinningTiles); // redraw the tiles
+  // increase bug speed by 0.3 each level
+  minSpeed += 0.3;
+  maxSpeed += 0.3;
 }
 
-// function randomIntFromInterval(1,100) {
-//     return Math.floor(Math.random()*(max-min+1)+min);
-// }
+/* This function is called whenever a player dies by hitting a bug or falling
+   in the water
+*/
+function playerDies(player) {
+  alert("You died. Hit ok to continue.")
+  resetPlayer(player);
+  player.lives -= 1;
+  document.getElementById("lives").innerHTML = player.lives;
+  if (player.lives == 0) {
+    alert("You lose! Don't hit the bugs or fall in the water. You must get to the brown wood to complete the level. Refesh to try again.");
+  }
+}
+
+// I wanted to add more functionality, but after watching multiple office hours and
+// reading forums, I still could not figure out how to start and stop the game,
+// so I just used alert() instead.
 
 // credit: http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_floor

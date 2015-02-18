@@ -6,10 +6,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body>
-		<button id="start">Start</button> <!-- nclick="start()" -->
-		<p id="lives" style="margin:0;">Lives: 3</p>
-		<p style="margin:0;">Level</p><p id="level" style="margin:0;">1</p>
-		<div style="display: inline-block;width: 150px;">
+		<h2>Udacity Frogger</h2>
+		<div id="livesLevels">
+			<p class="noMargin">Lives:</p><p id="lives" class="noMargin">3</p>
+			<p class="noMargin">Level:</p><p id="level" class="noMargin">1</p>
+		</div>
+		<div class="characterList">
 			<p style="text-align:left">Choose your character</p>
 			<img src="images/char-boy.png" id="boy" class="charImage">
 			<img src="images/char-cat-girl.png" id="catGirl" class="charImage">
@@ -18,44 +20,22 @@
 			<img src="images/char-princess-girl.png" id="princessGirl" class="charImage">
 		</div>
 		<script type="text/javascript">
-		// var startButton = document.getElementById("start");
-		// var image1 = document.getElementById('boy');
-		// var image2 = document.getElementById('catGirl');
-		// // image1.addEventHandler('click', boyClickHandler);
-		// image2.addEventHandler('click', girlClickHandler);
-		// function girlClickHandler() {
-		// 	console.log('girl');
-		// 	// player.sprite = ''
-		// }
-		$('#start').on('click', function() {
-			start = true;
-			testF();
-			// main();
-		})
-		$('#catGirl').on('click', function() {
-			player.sprite = 'images/char-cat-girl.png';
-		})
-		$('#hornGirl').on('click', function() {
-			player.sprite = 'images/char-horn-girl.png';
-		})
-		$('#pinkGirl').on('click', function() {
-			player.sprite = 'images/char-pink-girl.png';
-		})
-		$('#princessGirl').on('click', function() {
-			player.sprite = 'images/char-princess-girl.png';
-		})
-		$('#boy').on('click', function() {
-			player.sprite = 'images/char-boy.png';
-		})
- 	// 	function changeCharacter() {
-		// 	console.log(player.sprite);
-		// 	console.log(this);
-		// 	console.log(this.selector);
-		// 	console.log($('#catGirl'));
-		// 	player.sprite = 'images/char-cat-girl.png';
-		// 	// console.log($('#catGirl'));
-		// 	// window.requestAnimationFrame(Engine.main());
-		// };
+			// This script changes the player's character when they click on the image
+			$('#catGirl').on('click', function() {
+				player.sprite = 'images/char-cat-girl.png';
+			})
+			$('#hornGirl').on('click', function() {
+				player.sprite = 'images/char-horn-girl.png';
+			})
+			$('#pinkGirl').on('click', function() {
+				player.sprite = 'images/char-pink-girl.png';
+			})
+			$('#princessGirl').on('click', function() {
+				player.sprite = 'images/char-princess-girl.png';
+			})
+			$('#boy').on('click', function() {
+				player.sprite = 'images/char-boy.png';
+			})
 		</script>
     <script src="js/resources.js"></script>
     <script src="js/engine.js"></script>

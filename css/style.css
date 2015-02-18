@@ -1,6 +1,10 @@
 body {
     text-align: center;
-    background-color: blue;
+    background-color: #95a5a6;
+}
+
+h2 {
+	margin-bottom: 5px;
 }
 
 .gameCanvas {
@@ -11,3 +15,22 @@ body {
 	height: 9em;
 	margin-top: -3em;
 }
+
+.noMargin {
+	margin:0;
+	padding-right: 5px;
+	padding-left: 5px;
+  position:relative;
+  display:inline-block;
+}
+
+.characterList {
+	display: inline-block;
+	width: 150px;
+}
+
+.livesLevels {
+  text-align:center;
+  position:relative;
+}
+/*credit: http://stackoverflow.com/questions/18451677/centre-multiple-elements-within-div-using-css;*/
