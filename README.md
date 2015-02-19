@@ -9,4 +9,5 @@ To Play:
 * At the top, don't fall in the water, stay on the wooden tiles.
 * Each level there will be fewer tiles and the bugs will go faster.
 
+[Play the game here](http://andrewcockerham.github.io/WebDevNanodegreeProject3/)
 Enjoy!
