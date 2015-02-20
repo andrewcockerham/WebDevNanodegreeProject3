@@ -32,7 +32,7 @@ Enemy.prototype.update = function(dt) {
     // to make the game playable
     this.x += 230 * this.speed * dt;
     if (this.x > 500) { // bug goes off of canvas
-      this.x = 0
+      this.x = -101; // start at a neg value so that the bug does not pop onto the map.
       //credit: http://stackoverflow.com/questions/4550505/getting-random-value-from-an-array
       var row = rowArray[Math.floor(Math.random() * rowArray.length)];
       this.y = row
